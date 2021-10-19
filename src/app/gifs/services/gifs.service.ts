@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -5,12 +6,17 @@ import { Injectable } from '@angular/core';
 })
 export class GifsService {
 
+  private apiKey: string = 'JfrNMm6p1PMTi9gLokV6RD2ITUNEChYG'
   private _historial : string[] = []
 
+  // TODO cambiar any por su tipo
+  public resultados : any[] = []
+
   get historial(){
-    
     return [...this._historial]
   }
+
+  constructor(private http: HttpClient){}
 
   buscarGifs(query: string){
     //unshift() añade uno o varios elementros al inicio de un array
@@ -22,7 +28,12 @@ export class GifsService {
       this._historial = this._historial.splice(0, 10)
     }
     
-    console.log(this._historial)
+    this.http.get(`https://api.giphy.com/v1/gifs/search?api_key=JfrNMm6p1PMTi9gLokV6RD2ITUNEChYG&q=${query}&limit=10`)
+              .subscribe( (response:any) =>{
+                console.log(response.data )
+                this.resultados = response.data
+              })
+    
   }
 
 }
