@@ -19,15 +19,15 @@ export class GifsService {
   }
 
   constructor(private http: HttpClient){
-    this._historial = JSON.parse(localStorage.getItem("historial")!)
-    this.resultados = JSON.parse(localStorage.getItem('resultados')!)
+    this._historial = JSON.parse(localStorage.getItem("historial")!) || []
+    this.resultados = JSON.parse(localStorage.getItem('resultados')!) || []
   }
 
   buscarGifs(query: string){
     //unshift() añade uno o varios elementros al inicio de un array
 
     query = query.trim().toLocaleLowerCase()
-    if(!this._historial. includes(query)){
+    if( !this._historial.includes( query )){
       //insertamos si no existe 
       this._historial.unshift(query)
       this._historial = this._historial.splice(0, 10)
